@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -9,7 +11,15 @@ export default {
         '2xl': '1400px',
       },
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#633bfc',
+        secondary: '#efecfe',
+      },
+      fontFamily: {
+        sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   plugins: [],
 };
