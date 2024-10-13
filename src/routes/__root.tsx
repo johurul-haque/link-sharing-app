@@ -4,8 +4,10 @@ import { Header } from '../components/header';
 export const Route = createRootRoute({
   component: () => (
     <>
-      <Header />
-      <Outlet />
+      <div className="container flex flex-col min-h-screen">
+        <Header />
+        <Outlet />
+      </div>
     </>
   ),
 });

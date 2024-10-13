@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { CircleUserRound, LinkIcon } from 'lucide-react';
+import { Logo } from './logo';
 
 const LINKS = [
   { to: '/', label: 'Links', Icon: LinkIcon },
@@ -8,9 +9,9 @@ const LINKS = [
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center py-4 container">
-      <Link className="font-bold text-lg" to="/">
-        devlinks
+    <header className="flex justify-between items-center py-4 px-4 mx-auto bg-white rounded-lg my-6 w-full">
+      <Link to="/">
+        <Logo />
       </Link>
 
       <nav>
