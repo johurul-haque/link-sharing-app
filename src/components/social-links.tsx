@@ -4,16 +4,17 @@ import {
   LinkedinIcon,
   YoutubeIcon,
 } from 'lucide-react';
+import { PLATFORMS } from '../constants/platforms';
 import { cn } from '../lib/cn';
 
 type PropsType = {
   url: string;
-  label: string;
-  linkFor: 'github' | 'youtube' | 'linkedin';
+  linkFor: Lowercase<(typeof PLATFORMS)[number]>;
 };
 
-export function SocialLinks({ url, linkFor, label }: PropsType) {
+export function SocialLinks({ url, linkFor }: PropsType) {
   const Icon = getSocialIcon(linkFor);
+  const label = getSocialLabel(linkFor);
 
   return (
     <a
@@ -34,7 +35,7 @@ export function SocialLinks({ url, linkFor, label }: PropsType) {
   );
 }
 
-function getSocialIcon(iconFor: PropsType['linkFor']) {
+export function getSocialIcon(iconFor: PropsType['linkFor']) {
   switch (iconFor) {
     case 'github':
       return GithubIcon;
@@ -43,4 +44,8 @@ function getSocialIcon(iconFor: PropsType['linkFor']) {
     case 'linkedin':
       return LinkedinIcon;
   }
+}
+
+function getSocialLabel(value: string) {
+  return PLATFORMS.filter((platform) => platform.toLowerCase() === value)[0];
 }

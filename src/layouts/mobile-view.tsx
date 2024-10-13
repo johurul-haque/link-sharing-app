@@ -36,7 +36,7 @@ export function MobileView({ className }: { className?: string }) {
         <ul className="space-y-3 mt-10">
           {Array.from({ length: 5 }).map((_, index) => (
             <li key={index}>
-              <SocialLinks url="/" linkFor="youtube" label="LinkedIn" />
+              <SocialLinks url="/" linkFor="youtube" />
             </li>
           ))}
         </ul>
