@@ -1,4 +1,4 @@
-import { Reorder } from 'framer-motion';
+import { Reorder, useDragControls } from 'framer-motion';
 import { EqualIcon, LinkIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ export function CustomizeLinksForm() {
   const store = useLinksStore();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { register, control, handleSubmit } = useForm<Inputs>({
+  const { register, control, handleSubmit, formState } = useForm<Inputs>({
     defaultValues: {
       links: store.links || Array(2).fill({ platform: '', url: '' }),
     },
@@ -57,59 +57,92 @@ export function CustomizeLinksForm() {
         }}
         className="px-6 pb-20 md:pb-6 space-y-5"
       >
-        {fields.map((field, index) => (
-          <Reorder.Item
-            onDragStart={() => {
-              setActiveIndex(index);
-            }}
-            value={field}
-            key={field.id}
-          >
-            <fieldset key={field.id} className="rounded-lg p-5 bg-gray-100">
-              <div className="flex justify-between mb-4">
-                <legend className="font-semibold text-stone-600 flex items-center gap-1.5">
-                  <button className="cursor-grabbing">
-                    <span className="sr-only">Drag to reposition</span>
-                    <EqualIcon size={18} />
+        {fields.map((field, index) => {
+          const controls = useDragControls();
+
+          return (
+            <Reorder.Item
+              onDragStart={() => {
+                setActiveIndex(index);
+              }}
+              value={field}
+              dragListener={false}
+              dragControls={controls}
+              key={field.id}
+            >
+              <fieldset key={field.id} className="rounded-lg p-5 bg-gray-100">
+                <div className="flex justify-between mb-4">
+                  <legend className="font-semibold text-stone-600 flex items-center gap-1.5">
+                    <button
+                      onPointerDown={(e) => controls.start(e)}
+                      className="cursor-grabbing"
+                    >
+                      <span className="sr-only">Drag to reposition</span>
+                      <EqualIcon size={18} />
+                    </button>
+                    Link #{index + 1}
+                  </legend>
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="text-stone-400 hover:text-stone-600 font-medium text-sm"
+                  >
+                    Remove
                   </button>
-                  Link #{index + 1}
-                </legend>
-                <button
-                  type="button"
-                  onClick={() => remove(index)}
-                  className="text-stone-400 hover:text-stone-600 font-medium text-sm"
-                >
-                  Remove
-                </button>
-              </div>
+                </div>
 
-              <Controller
-                name={`links.${index}.platform`}
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectPlatform className="mb-3" {...field} />
-                )}
-              />
-
-              <label htmlFor={`url-${index}`} className="block text-xs mb-1.5">
-                Link
-              </label>
-              <div className="h-11 flex items-center border border-stone-200 rounded-md overflow-hidden pl-4 focus-within:ring-2 ring-primary bg-white text-sm">
-                <LinkIcon size={18} className="stroke-stone-600" />
-
-                <input
-                  type="url"
-                  {...register(`links.${index}.url`)}
-                  id={`url-${index}`}
-                  className="grow h-full bg-transparent outline-none px-4"
-                  required
+                <Controller
+                  name={`links.${index}.platform`}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <SelectPlatform className="mb-3" {...field} />
+                  )}
                 />
-              </div>
-            </fieldset>
-          </Reorder.Item>
-        ))}
+
+                <label
+                  htmlFor={`url-${index}`}
+                  className="block text-xs mb-1.5"
+                >
+                  Link
+                </label>
+                <div className="h-11 flex items-center border border-stone-200 rounded-md overflow-hidden pl-4 focus-within:ring-2 ring-primary bg-white text-sm">
+                  <LinkIcon size={18} className="stroke-stone-600" />
+
+                  <input
+                    type="url"
+                    {...register(`links.${index}.url`, {
+                      required: 'URL is required',
+                      validate: (value) => {
+                        if (!field.platform) return true;
+
+                        const lowercaseUrl = value.toLowerCase();
+
+                        if (
+                          !lowercaseUrl.includes(field.platform.toLowerCase())
+                        ) {
+                          return `Please use ${field.platform}'s URL`;
+                        }
+
+                        return true;
+                      },
+                    })}
+                    id={`url-${index}`}
+                    className="grow h-full bg-transparent outline-none px-4"
+                    required
+                  />
+                </div>
+                {formState.errors.links?.[index]?.url && (
+                  <p className="text-red-500 text-xs mt-1.5">
+                    {formState.errors.links[index].url.message}
+                  </p>
+                )}
+              </fieldset>
+            </Reorder.Item>
+          );
+        })}
       </Reorder.Group>
+
       <div className="md:contents max-md:fixed max-md:bottom-0 max-md:inset-x-0 max-md:pb-6 max-md:bg-white">
         <hr />
 
