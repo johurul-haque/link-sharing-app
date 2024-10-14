@@ -34,7 +34,7 @@ export function Header() {
         className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-md border-2 border-primary text-primary font-semibold hover:bg-secondary"
         to="/preview"
       >
-        <EyeIcon className="sm:hidden" strokeWidth={1.7} />
+        <EyeIcon className="sm:hidden" size={19} />
         <span className="max-sm:sr-only">Preview</span>
       </Link>
     </header>
