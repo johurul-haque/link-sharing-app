@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# Link Sharing App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The application was designed following this [challenge](https://www.frontendmentor.io/challenges/linksharing-app-Fbt7yweGsT) on Frontend Mentor.
 
-Currently, two official plugins are available:
+## Getting Started
+### Prerequisites
+- NodeJs v>=20
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Install dependencies
+```bash
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Now start the dev server
 ```
+npm run dev
+```
+This will run the app on [localhost:5173](http://localhost:5173/).
+
+## Notes
+List of things I wasn't able to complete:
+- The toast. After saving a toast would show up from the bottom to notify it has been saved. I wasn't able to add it in the short time.
+
+## Tech Stack
+Technologies I chose and why I chose some of them.
+
+- React
+- Tanstack Router - For routing and type-safety on navigation
+- Zustand - For persisting data on local storage and having up to date data everywhere.
+- React Hook Form - For managing submissions and validations
+- Typescript
+- TailwindCSS
+- Lucide react - For svg icons
