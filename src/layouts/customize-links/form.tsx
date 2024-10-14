@@ -1,36 +1,71 @@
 import { EqualIcon, LinkIcon } from 'lucide-react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { SelectPlatform } from './select-platform';
 
-const LINKS = [
-  { platform: 'GitHub', url: 'https://github.com/' },
-  { platform: 'YouTube', url: 'https://youtube.com/' },
-];
+type Inputs = {
+  links: {
+    platform: string;
+    url: string;
+  }[];
+};
 
 export function Form() {
+  const { register, control, handleSubmit } = useForm<Inputs>({
+    defaultValues: {
+      links: Array(2).fill({ platform: '', url: '' }),
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'links',
+  });
+
+  const onSubmit = ({ links }: Inputs) => {
+    console.log(links);
+  };
+
   return (
-    <form className="pb-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="pb-8">
+      <div className="px-6 my-6 lg:mt-8">
+        <button
+          onClick={() => append({ platform: '', url: '' })}
+          className="border-2 border-primary text-primary font-semibold text-sm py-2 px-4 block w-full rounded-md hover:bg-secondary focus:ring-2 ring-secondary ring-offset-1 outline-none "
+        >
+          + Add new link
+        </button>
+      </div>
+
       <div className="px-6 pb-6 space-y-5">
-        {LINKS.map((_, i) => (
-          <fieldset key={i} className="rounded-lg p-5 bg-gray-100">
+        {fields.map((field, index) => (
+          <fieldset key={field.id} className="rounded-lg p-5 bg-gray-100">
             <div className="flex justify-between mb-4">
               <legend className="font-semibold text-stone-600 flex items-center gap-1.5">
                 <button>
                   <span className="sr-only">Drag to reposition</span>
                   <EqualIcon size={18} />
                 </button>
-                Link #{i + 1}
+                Link #{index + 1}
               </legend>
               <button
                 type="button"
+                onClick={() => remove(index)}
                 className="text-stone-400 hover:text-stone-600 font-medium text-sm"
               >
                 Remove
               </button>
             </div>
 
-            <SelectPlatform className="mb-3" />
+            <Controller
+              name={`links.${index}.platform`}
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectPlatform className="mb-3" {...field} />
+              )}
+            />
 
-            <label htmlFor={`url-${i}`} className="block text-xs mb-1.5">
+            <label htmlFor={`url-${index}`} className="block text-xs mb-1.5">
               Link
             </label>
             <div className="h-11 flex items-center border border-stone-200 rounded-md overflow-hidden pl-4 focus-within:ring-2 ring-primary bg-white text-sm">
@@ -38,8 +73,8 @@ export function Form() {
 
               <input
                 type="url"
-                name=""
-                id={`url-${i}`}
+                {...register(`links.${index}.url`)}
+                id={`url-${index}`}
                 className="grow h-full bg-transparent outline-none pl-4"
                 required
               />
