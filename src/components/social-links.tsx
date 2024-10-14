@@ -9,7 +9,7 @@ import { cn } from '../lib/cn';
 
 type PropsType = {
   url: string;
-  linkFor: Lowercase<(typeof PLATFORMS)[number]>;
+  linkFor: string;
 };
 
 export function SocialLinks({ url, linkFor }: PropsType) {
@@ -19,6 +19,7 @@ export function SocialLinks({ url, linkFor }: PropsType) {
   return (
     <a
       href={url}
+      target="_blank"
       className={cn(
         'rounded-md px-4 py-3 text-white text-xs flex items-center justify-between gap-2',
         {
@@ -28,14 +29,14 @@ export function SocialLinks({ url, linkFor }: PropsType) {
         }
       )}
     >
-      <Icon strokeWidth={1.5} size={20} />
+      {Icon && <Icon strokeWidth={1.5} size={20} />}
       <span className="mr-auto">{label}</span>
       <ArrowRight strokeWidth={1.7} size={20} />
     </a>
   );
 }
 
-export function getSocialIcon(iconFor: PropsType['linkFor']) {
+export function getSocialIcon(iconFor: string) {
   switch (iconFor) {
     case 'github':
       return GithubIcon;

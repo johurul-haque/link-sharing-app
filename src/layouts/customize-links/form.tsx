@@ -1,5 +1,6 @@
 import { EqualIcon, LinkIcon } from 'lucide-react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useLinksStore } from '../../store/links';
 import { SelectPlatform } from './select-platform';
 
 type Inputs = {
@@ -10,9 +11,11 @@ type Inputs = {
 };
 
 export function Form() {
+  const store = useLinksStore();
+
   const { register, control, handleSubmit } = useForm<Inputs>({
     defaultValues: {
-      links: Array(2).fill({ platform: '', url: '' }),
+      links: store.links || Array(2).fill({ platform: '', url: '' }),
     },
   });
 
@@ -22,7 +25,7 @@ export function Form() {
   });
 
   const onSubmit = ({ links }: Inputs) => {
-    console.log(links);
+    store.saveLinks(links);
   };
 
   return (

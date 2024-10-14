@@ -4,13 +4,12 @@ import { getSocialIcon } from '../../components/social-links';
 import { PLATFORMS } from '../../constants/platforms';
 import { cn } from '../../lib/cn';
 
-type Platform = Lowercase<(typeof PLATFORMS)[number]>;
 
 export const SelectPlatform = forwardRef<
   HTMLSelectElement,
   SelectHTMLAttributes<HTMLSelectElement>
 >(({ className, onChange, value, name, ...props }, ref) => {
-  const PlatformIcon = value ? getSocialIcon(value as Platform) : null;
+  const PlatformIcon = value ? getSocialIcon(value as string) : null;
 
   return (
     <div className={className}>

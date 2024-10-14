@@ -2,6 +2,7 @@ import { ImageIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { cn } from '../../lib/cn';
+import { useProfileStore } from '../../store/profile';
 
 type Inputs = {
   firstName: string;
@@ -10,11 +11,21 @@ type Inputs = {
 };
 
 export function ProfileDetails({ className }: { className?: string }) {
-  const [imgSrc, setImgSrc] = useState('');
-  const form = useForm<Inputs>();
+  const profileStore = useProfileStore();
+
+  const [imgSrc, setImgSrc] = useState(profileStore.image || '');
+
+  const form = useForm<Inputs>({
+    defaultValues: {
+      firstName: profileStore.name?.split(' ')[0],
+      lastName: profileStore.name?.split(' ')[1],
+      email: profileStore.email,
+    },
+  });
 
   const onSubmit = (data: Inputs) => {
-    console.log({ ...data, imgSrc });
+    const name = `${data.firstName.trim()} ${data.lastName.trim()}`;
+    profileStore.saveData({ name, email: data.email, image: imgSrc });
   };
 
   return (
@@ -28,7 +39,7 @@ export function ProfileDetails({ className }: { className?: string }) {
         </p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 max-lg:mb-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 mb-6">
         <div className="px-6 lg:px-8 space-y-6 lg:space-y-8">
           <fieldset className="rounded-lg p-5 bg-gray-100">
             <dl className="grid grid-cols-3 gap-5">
@@ -56,7 +67,7 @@ export function ProfileDetails({ className }: { className?: string }) {
                     <img
                       src={imgSrc}
                       className="absolute inset-0 object-cover h-full w-full"
-                      alt={`Image of ${''}`}
+                      alt={`Image of ${form.getValues('firstName')}`}
                     />
                   )}
 
