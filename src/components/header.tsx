@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { CircleUserRound, LinkIcon } from 'lucide-react';
+import { CircleUserRound, EyeIcon, LinkIcon } from 'lucide-react';
 import { Logo } from './logo';
 
 const LINKS = [
@@ -22,8 +22,8 @@ export function Header() {
                 className="[&.active]:bg-secondary [&.active]:text-primary hover:bg-gray-100 font-medium px-4 py-2 flex gap-2 items-center rounded-md"
                 to={to}
               >
-                <Icon size={18} />
-                {label}
+                <Icon size={19} />
+                <span className="max-sm:sr-only">{label}</span>
               </Link>
             </li>
           ))}
@@ -31,10 +31,11 @@ export function Header() {
       </nav>
 
       <Link
-        className="px-5 py-2 rounded-md border-2 border-primary text-primary font-semibold hover:bg-secondary"
+        className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-md border-2 border-primary text-primary font-semibold hover:bg-secondary"
         to="/preview"
       >
-        Preview
+        <EyeIcon className="sm:hidden" strokeWidth={1.7} />
+        <span className="max-sm:sr-only">Preview</span>
       </Link>
     </header>
   );

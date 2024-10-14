@@ -1,4 +1,5 @@
 import { ReactNode } from '@tanstack/react-router';
+import { cn } from '../lib/cn';
 import { useLinksStore } from '../store/links';
 import { useProfileStore } from '../store/profile';
 import { SocialLinks } from './social-links';
@@ -9,7 +10,12 @@ export function ProfileCard({ previewMode }: { previewMode?: boolean }) {
 
   return (
     <>
-      <figure className="[&>*:nth-child(1)]:rounded-full [&>*:nth-child(1)]:size-14 [&>*:nth-child(1)]:mx-auto text-center">
+      <figure
+        className={cn(
+          '[&>*:nth-child(1)]:rounded-full [&>*:nth-child(1)]:size-14 [&>*:nth-child(1)]:mx-auto text-center',
+          previewMode && '[&>*:nth-child(1)]:size-20'
+        )}
+      >
         {profileStore.image ? (
           <img
             src={profileStore.image}
@@ -17,7 +23,7 @@ export function ProfileCard({ previewMode }: { previewMode?: boolean }) {
             alt={`Image of ${profileStore.name}`}
           />
         ) : (
-          <div className="bg-gray-200" />
+          <div className={'bg-gray-200'} />
         )}
 
         <figcaption className="mt-5">
@@ -35,7 +41,10 @@ export function ProfileCard({ previewMode }: { previewMode?: boolean }) {
               {profileStore.email}
             </a>
           ) : (
-            <div className="rounded-md bg-gray-200 w-1/2 h-2 mx-auto mt-2" />
+            <div
+              className="rounded-md bg-gray-200 w-1/2 h-2 mx-auto mt-2"
+              hidden={previewMode}
+            />
           )}
         </figcaption>
       </figure>

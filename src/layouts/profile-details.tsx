@@ -1,8 +1,8 @@
 import { ImageIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { cn } from '../../lib/cn';
-import { useProfileStore } from '../../store/profile';
+import { cn } from '../lib/cn';
+import { useProfileStore } from '../store/profile';
 
 type Inputs = {
   firstName: string;
@@ -40,28 +40,37 @@ export function ProfileDetails({ className }: { className?: string }) {
         </p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 mb-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mt-4 mb-6 max-md:pb-24"
+      >
         <div className="px-6 lg:px-8 space-y-6 lg:space-y-8">
           <fieldset className="rounded-lg p-5 bg-gray-100">
-            <dl className="grid grid-cols-3 gap-5">
+            <dl className="grid md:grid-cols-3 gap-5">
               <dt className="font-medium text-stone-500 self-center">
                 Profile picture
               </dt>
 
-              <dd className="grid grid-cols-2 gap-5 col-span-2">
+              <dd className="grid md:grid-cols-2 gap-5 md:col-span-2">
                 <label
                   htmlFor="profile"
-                  className="bg-white rounded-xl overflow-hidden aspect-square relative cursor-pointer"
+                  className="bg-white rounded-xl overflow-hidden aspect-square relative cursor-pointer max-md:max-w-[15rem] "
                 >
                   <div
                     className={cn(
-                      'absolute inset-0 flex flex-col justify-center items-center gap-4 z-10',
+                      'absolute inset-0 flex flex-col justify-center items-center gap-4 z-10 bg-secondary text-primary p-2',
                       imgSrc &&
                         'transition text-white/80 bg-neutral-900/30 hover:bg-neutral-900/60 hover:text-white/95'
                     )}
                   >
-                    <ImageIcon size={50} strokeWidth={1.5} />
-                    <span className="font-medium">Change Image</span>
+                    <ImageIcon
+                      size={50}
+                      className="md:max-lg:size-8"
+                      strokeWidth={1.5}
+                    />
+                    <span className="font-medium max-md:text-sm max-lg:text-xs text-center">
+                      {imgSrc ? 'Change' : '+Upload'} Image
+                    </span>
                   </div>
 
                   {imgSrc && (
@@ -101,7 +110,7 @@ export function ProfileDetails({ className }: { className?: string }) {
             </dl>
           </fieldset>
 
-          <div className="rounded-lg p-5 space-y-3 bg-gray-100 [&>*]:grid [&>*]:grid-cols-3 [&>*]:items-center [&>*>label]:font-medium [&>*>label]:text-stone-500">
+          <div className="rounded-lg p-5 space-y-3 bg-gray-100 [&>*]:grid max-md:[&>*]:gap-1 md:[&>*]:grid-cols-3 md:[&>*]:items-center [&>*>label]:font-medium [&>*>label]:text-stone-500">
             <fieldset>
               <label htmlFor="first-name">
                 First name<sup>*</sup>
@@ -143,11 +152,13 @@ export function ProfileDetails({ className }: { className?: string }) {
           </div>
         </div>
 
-        <hr className="mt-10 mb-6 lg:mb-8" />
+        <div className="md:contents max-md:fixed max-md:bottom-0 max-md:inset-x-0 max-md:pb-6 max-md:bg-white">
+          <hr className="md:mt-10 mb-6 lg:mb-8" />
 
-        <button className="bg-primary text-white px-6 py-2.5 rounded-md font-medium mt-6 mr-6 lg:mt-8 lg:mr-8 ml-auto block hover:opacity-90">
-          Save
-        </button>
+          <button className="bg-primary text-white px-6 py-2.5 rounded-md font-medium mt-6 mr-6 ml-auto block hover:opacity-90">
+            Save
+          </button>
+        </div>
       </form>
     </section>
   );

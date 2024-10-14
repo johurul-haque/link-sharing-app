@@ -10,7 +10,7 @@ type Inputs = {
   }[];
 };
 
-export function Form() {
+export function CustomizeLinksForm() {
   const store = useLinksStore();
 
   const { register, control, handleSubmit } = useForm<Inputs>({
@@ -40,7 +40,7 @@ export function Form() {
         </button>
       </div>
 
-      <div className="px-6 pb-6 space-y-5">
+      <div className="px-6 pb-20 md:pb-6 space-y-5">
         {fields.map((field, index) => (
           <fieldset key={field.id} className="rounded-lg p-5 bg-gray-100">
             <div className="flex justify-between mb-4">
@@ -79,7 +79,7 @@ export function Form() {
                 type="url"
                 {...register(`links.${index}.url`)}
                 id={`url-${index}`}
-                className="grow h-full bg-transparent outline-none pl-4"
+                className="grow h-full bg-transparent outline-none px-4"
                 required
               />
             </div>
@@ -87,11 +87,13 @@ export function Form() {
         ))}
       </div>
 
-      <hr />
+      <div className="md:contents max-md:fixed max-md:bottom-0 max-md:inset-x-0 max-md:pb-6 max-md:bg-white">
+        <hr />
 
-      <button className="bg-primary text-white px-6 py-2.5 rounded-md font-medium mt-6 mr-6 ml-auto block hover:opacity-90">
-        Save
-      </button>
+        <button className="bg-primary text-white px-6 py-2.5 rounded-md font-medium mt-6 mr-6 ml-auto block hover:opacity-90">
+          Save
+        </button>
+      </div>
     </form>
   );
 }
