@@ -32,7 +32,7 @@ export function Header() {
 
       <Link
         className="px-5 py-2 rounded-md border-2 border-primary text-primary font-semibold hover:bg-secondary"
-        to="/"
+        to="/preview"
       >
         Preview
       </Link>

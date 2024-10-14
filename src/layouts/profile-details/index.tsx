@@ -26,6 +26,7 @@ export function ProfileDetails({ className }: { className?: string }) {
   const onSubmit = (data: Inputs) => {
     const name = `${data.firstName.trim()} ${data.lastName.trim()}`;
     profileStore.saveData({ name, email: data.email, image: imgSrc });
+    alert('Your changes have been successfully saved!');
   };
 
   return (

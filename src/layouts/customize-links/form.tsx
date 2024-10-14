@@ -26,6 +26,7 @@ export function Form() {
 
   const onSubmit = ({ links }: Inputs) => {
     store.saveLinks(links);
+    alert('Your changes have been successfully saved!');
   };
 
   return (

@@ -12,12 +12,18 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
+import { Route as PreviewImport } from './routes/preview'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
 const ProfileRoute = ProfileImport.update({
   path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PreviewRoute = PreviewImport.update({
+  path: '/preview',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,6 +43,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/preview': {
+      id: '/preview'
+      path: '/preview'
+      fullPath: '/preview'
+      preLoaderRoute: typeof PreviewImport
+      parentRoute: typeof rootRoute
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -51,36 +64,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/preview': typeof PreviewRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/preview': typeof PreviewRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/preview': typeof PreviewRoute
   '/profile': typeof ProfileRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/profile'
+  fullPaths: '/' | '/preview' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/profile'
-  id: '__root__' | '/' | '/profile'
+  to: '/' | '/preview' | '/profile'
+  id: '__root__' | '/' | '/preview' | '/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PreviewRoute: typeof PreviewRoute
   ProfileRoute: typeof ProfileRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PreviewRoute: PreviewRoute,
   ProfileRoute: ProfileRoute,
 }
 
@@ -97,11 +115,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/preview",
         "/profile"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/preview": {
+      "filePath": "preview.tsx"
     },
     "/profile": {
       "filePath": "profile.tsx"
